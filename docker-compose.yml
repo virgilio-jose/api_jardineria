@@ -1,0 +1,121 @@
+services:
+  db-clientes:
+    image: postgres:15-alpine
+    container_name: postgres_clientes
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${DB_CLIENTES}
+    ports:
+      - "5432:5432"
+    volumes:
+      - almacenamiento_clientes:/var/lib/postgresql/data
+    networks:
+      - red-jardineria
+
+  service-clientes:
+    build: ./service-clientes
+    container_name: api_clientes
+    restart: always
+    environment:
+      - DATABASE_URL=${CLIENTES_DATABASE_URL}
+    ports:
+      - "8001:8000"
+    depends_on:
+      - db-clientes
+    networks:
+      - red-jardineria
+
+  db-empleados:
+    image: postgres:15-alpine
+    container_name: postgres_empleados
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${DB_EMPLEADOS}
+    ports:
+      - "5433:5432"
+    volumes:
+      - almacenamiento_empleados:/var/lib/postgresql/data
+    networks:
+      - red-jardineria
+
+  service-empleados:
+    build: ./service-empleados
+    container_name: api_empleados
+    restart: always
+    environment:
+      - DATABASE_URL=${EMPLEADOS_DATABASE_URL}
+    ports:
+      - "8002:8000"
+    depends_on:
+      - db-empleados
+    networks:
+      - red-jardineria
+
+  db-servicios:
+    image: postgres:15-alpine
+    container_name: postgres_servicios
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${DB_SERVICIOS}
+    ports:
+      - "5434:5432"
+    volumes:
+      - almacenamiento_servicios:/var/lib/postgresql/data
+    networks:
+      - red-jardineria
+
+  service-servicios:
+    build: ./service-servicios
+    container_name: api_servicios
+    restart: always
+    environment:
+      - DATABASE_URL=${SERVICIOS_DATABASE_URL}
+    ports:
+      - "8003:8000"
+    depends_on:
+      - db-servicios
+    networks:
+      - red-jardineria
+
+  db-ordenes:
+    image: postgres:15-alpine
+    container_name: postgres_ordenes
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${DB_ORDENES}
+    ports:
+      - "5435:5432"
+    volumes:
+      - almacenamiento_ordenes:/var/lib/postgresql/data
+    networks:
+      - red-jardineria
+
+  service-ordenes:
+    build: ./service-ordenes
+    container_name: api_ordenes
+    restart: always
+    environment:
+      - DATABASE_URL=${ORDENES_DATABASE_URL}
+      - CLIENTES_SERVICE_URL=${CLIENTES_SERVICE_URL}
+      - EMPLEADOS_SERVICE_URL=${EMPLEADOS_SERVICE_URL}
+      - SERVICIOS_SERVICE_URL=${SERVICIOS_SERVICE_URL}
+    ports:
+      - "8004:8000"
+    depends_on:
+      - db-ordenes
+    networks:
+      - red-jardineria
+
+volumes:
+  almacenamiento_clientes:
+  almacenamiento_empleados:
+  almacenamiento_servicios:
+  almacenamiento_ordenes:
+
+networks:
+  red-jardineria:
+    driver: bridge

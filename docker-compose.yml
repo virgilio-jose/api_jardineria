@@ -110,6 +110,25 @@ services:
     networks:
       - red-jardineria
 
+  api-gateway:
+    build: ./api-gateway
+    container_name: api_gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - CLIENTES_SERVICE_URL=http://service-clientes:8000
+      - EMPLEADOS_SERVICE_URL=http://service-empleados:8000
+      - SERVICIOS_SERVICE_URL=http://service-servicios:8000
+      - ORDENES_SERVICE_URL=http://service-ordenes:8000
+      - CORS_ORIGINS=${CORS_ORIGINS:-*}
+    networks:
+      - red-jardineria
+    depends_on:
+      - service-clientes
+      - service-empleados
+      - service-servicios
+      - service-ordenes
+
 volumes:
   almacenamiento_clientes:
   almacenamiento_empleados:

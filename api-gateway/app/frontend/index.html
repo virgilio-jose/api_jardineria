@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema de Jardinería</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen">
+  <header class="bg-emerald-700 text-white shadow">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-2">
+      <div>
+        <h1 class="text-xl font-bold">🌿 Sistema de Jardinería</h1>
+        <p class="text-xs text-emerald-100">Gestión centralizada vía API Gateway</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-6">
+    <!-- Pestañas de los 4 microservicios -->
+    <div class="flex flex-wrap gap-2 mb-6" id="tabs">
+      <button data-tab="clientes" class="tab-btn bg-emerald-700 text-white px-4 py-2 rounded-lg font-medium text-sm">
+        Clientes
+      </button>
+      <button data-tab="empleados" class="tab-btn bg-white text-slate-700 hover:bg-slate-200 px-4 py-2 rounded-lg font-medium text-sm">
+        Empleados
+      </button>
+      <button data-tab="servicios" class="tab-btn bg-white text-slate-700 hover:bg-slate-200 px-4 py-2 rounded-lg font-medium text-sm">
+        Servicios
+      </button>
+      <button data-tab="ordenes" class="tab-btn bg-white text-slate-700 hover:bg-slate-200 px-4 py-2 rounded-lg font-medium text-sm">
+        Órdenes
+      </button>
+    </div>
+
+    <!-- Alertas -->
+    <div id="alert-box" class="hidden mb-4 p-3 rounded-lg text-sm font-medium"></div>
+
+    <!-- Contenido principal -->
+    <section id="content-area" class="bg-white rounded-xl shadow p-5"></section>
+  </main>
+
+  <script src="/frontend/app.js"></script>
+</body>
+</html>
